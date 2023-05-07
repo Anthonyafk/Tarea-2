@@ -59,6 +59,7 @@ public class Laberinto extends Pila{
                 paredesVerticales[i][j] = true;
             }            
      }
+    
         // Hacemos que la Cela inicial sea la esquina superior izquierda
         int filaActual = 0;
         int columnaActual = 0;
@@ -103,6 +104,7 @@ public class Laberinto extends Pila{
 
     private Lista<Integer> obtenerVecinosNoVisitados(int fila, int columna, boolean[][] visitadas) {
         Lista<Integer> vecinos = new Lista();
+        
         if (fila > 0 && !visitadas[fila - 1][columna]) {
             vecinos.agregarAlFinal((fila - 1) * m + columna);
         }
@@ -117,9 +119,9 @@ public class Laberinto extends Pila{
         }
         return vecinos;
     }        
-    
+
     public Lista<int[]> buscarCaminoDFS(int[] inicio, int[] fin, boolean[][] visitado) {
-        Lista<int[]> camino = new Lista();
+        Lista<int[]> camino = new Lista<>();
         if (inicio[0] == fin[0] && inicio[1] == fin[1]) {
             camino.agregarAlFinal(inicio);
             return camino;
@@ -146,42 +148,16 @@ public class Laberinto extends Pila{
     public void resolverLaberinto() {
         boolean[][] visitado = new boolean[n][m];
         Lista<int[]> camino = buscarCaminoDFS(new int[]{0, 0}, new int[]{n-1, m-1}, visitado);
-    
-        if (camino == null) {
-            System.out.println("No se encontró solución para el laberinto.");
-            return;
-        }
-    
-        // Imprimir la solución en la terminal
-        String[][] solucion = new String[n*2+1][m*2+1];
-        for (int i = 0; i < n*2+1; i++) {
-            for (int j = 0; j < m*2+1; j++) {
-                if (i % 2 == 0 || j % 2 == 0) {
-                    solucion[i][j] = "_";
-                } else {
-                    solucion[i][j] = "|";
-                }
+        if (camino.esVacia()) {
+            System.out.println("Se encontró el siguiente camino:");
+            for (int[] posicion : camino) {
+                System.out.println("(" + posicion[0] + ", " + posicion[0] + ")");
             }
-        }
-        for (int i = 0; i < camino.getTamanio()-1; i++) {
-            int[] pos1 = camino.getElemento(i);
-            int[] pos2 = camino.getElemento(i+1);
-            int fila = pos1[0]*2 + 1;
-            int columna = pos1[1]*2 + 1;
-            if (pos1[0] == pos2[0]) {
-                columna = (pos1[1] + pos2[1] + 1) / 2 * 2 + 1;
-            } else {
-                fila = (pos1[0] + pos2[0] + 1) / 2 * 2 + 1;
-            }
-            solucion[fila][columna] = "x";
-        }
-        for (int i = 0; i < n*2+1; i++) {
-            for (int j = 0; j < m*2+1; j++) {
-                System.out.print(solucion[i][j]);
-            }
-            System.out.println();
+        } else {
+            System.out.println("No se encontró un camino.");
         }
     }    
+
         public String toString() {
             StringBuilder xd = new StringBuilder();
         

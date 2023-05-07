@@ -25,7 +25,7 @@ public class Main{
         prueba.generarLaberinto();
         System.out.println(prueba);
 
-        System.out.println("La resolucion del laberinto se ve asi:");
+        System.out.println("Solucion Lab: ");
         prueba.resolverLaberinto();
     }
 }
